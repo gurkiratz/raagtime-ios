@@ -11,7 +11,7 @@ import SwiftUI
 struct RaagTimeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RaagListView()
         }
     }
 }
