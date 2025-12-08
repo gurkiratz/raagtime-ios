@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum SortOption: String, CaseIterable {
+    case alphabetical = "Alphabetical"
+    case time = "Time"
+    case thaat = "Thaat"
+}
+
+
 // MARK: - Main Home View
 struct RaagListView: View {
     @State private var viewModel = RaagListViewModel()
@@ -16,7 +23,9 @@ struct RaagListView: View {
             VStack(spacing: 0) {
                 // Search Bar
                 SearchBar(text: $viewModel.searchText)
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
                 
                 // Filter Bar
                 FilterBar(
@@ -30,7 +39,7 @@ struct RaagListView: View {
                     SortMenu(selectedSort: $viewModel.sortOption)
                         .padding(.horizontal)
                 }
-                .padding()
+                .padding(.vertical, 8)
                 
                 // Raag List
                 if viewModel.filteredRaags.isEmpty {
@@ -50,37 +59,9 @@ struct RaagListView: View {
                 }
             }
             .navigationTitle("RaagTime")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
-}
-
-// MARK: - Empty State View
-struct EmptyStateView: View {
-    var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "music.note.list")
-                .font(.system(size: 60))
-                .foregroundColor(.gray)
-            
-            Text("No Raags Found")
-                .font(.title2)
-                .fontWeight(.semibold)
-            
-            Text("Try adjusting your filters or search term")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-// MARK: - Sort Option Enum
-enum SortOption: String, CaseIterable {
-    case alphabetical = "Alphabetical"
-    case time = "Time"
-    case thaat = "Thaat"
 }
 
 // MARK: - Placeholder Detail View

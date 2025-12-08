@@ -36,18 +36,22 @@ struct RaagRowView: View {
                         .foregroundColor(.primary)
                     
                     if isCurrentTime {
-                        Image(systemName: "star.fill")
+                        Image(systemName: "circle.fill")
                             .font(.caption)
                             .foregroundColor(.yellow)
                     }
                 }
                 
-                HStack(spacing: 8) {
-                    Label(raag.time.rawValue, systemImage: "clock")
-                        .font(.caption)
-                    
+                VStack(alignment: .leading, spacing: 4) {
                     Label(raag.thaat.rawValue, systemImage: "music.note.list")
                         .font(.caption)
+                    
+                    HStack(spacing: 4) {
+                        Label(raag.time.rawValue, systemImage: "clock")
+                            .font(.caption)
+                        Text(raag.time.timeRange)
+                            .font(.caption)
+                    }
                 }
                 .foregroundColor(.secondary)
             }
@@ -57,12 +61,13 @@ struct RaagRowView: View {
             // YouTube Indicator
             if let links = raag.youtubeLinks, !links.isEmpty {
                 VStack {
-                    Image(systemName: "play.circle.fill")
+                    Image(systemName: "play.square")
                         .font(.title2)
                         .foregroundColor(.red)
                     Text("\(links.count)")
                         .font(.caption2)
                         .foregroundColor(.secondary)
+                        .padding(.top, 4)
                 }
             }
             

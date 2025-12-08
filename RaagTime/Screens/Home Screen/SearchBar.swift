@@ -17,6 +17,8 @@ struct SearchBar: View {
             
             TextField("Search raags...", text: $text)
                 .textFieldStyle(PlainTextFieldStyle())
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
             
             if !text.isEmpty {
                 Button(action: { text = "" }) {

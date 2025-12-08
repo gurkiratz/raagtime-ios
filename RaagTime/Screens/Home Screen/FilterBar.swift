@@ -50,6 +50,25 @@ struct FilterBar: View {
     }
 }
 
+// MARK: - Filter Chip Button Style
+struct FilterChipButtonStyle: ButtonStyle {
+    let isSelected: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.subheadline)
+            .fontWeight(isSelected ? .semibold : .regular)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(isSelected ? Color.accentColor : Color(.systemGray6))
+            .foregroundColor(isSelected ? .white : .primary)
+            .cornerRadius(20)
+            .opacity(configuration.isPressed ? 0.7 : 1.0)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
 // MARK: - Filter Chip
 struct FilterChip: View {
     let title: String
@@ -65,18 +84,12 @@ struct FilterChip: View {
                         .font(.caption)
                 }
                 Text(title)
-                    .font(.subheadline)
-                    .fontWeight(isSelected ? .semibold : .regular)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(isSelected ? Color.blue : Color(.systemGray5))
-            .foregroundColor(isSelected ? .white : .primary)
-            .cornerRadius(20)
         }
+        .buttonStyle(FilterChipButtonStyle(isSelected: isSelected))
     }
 }
 
-//#Preview {
-//    FilterBar()
-//}
+#Preview {
+    FilterBar(selectedTime: .constant(TimeOfDay.evening), showCurrentTime: .constant(true))
+}
