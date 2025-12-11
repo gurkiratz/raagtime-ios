@@ -38,7 +38,11 @@ import Foundation
         case .time:
             raags = raags.sorted { $0.time.rawValue < $1.time.rawValue }
         case .thaat:
-            raags = raags.sorted { $0.thaat.rawValue < $1.thaat.rawValue }
+            raags = raags.sorted { raag1, raag2 in
+                let thaat1 = raag1.thaat?.rawValue ?? ""
+                let thaat2 = raag2.thaat?.rawValue ?? ""
+                return thaat1 < thaat2
+            }
         }
         
         return raags

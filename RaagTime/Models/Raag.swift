@@ -18,6 +18,7 @@ enum TimeOfDay: String, Codable, CaseIterable {
     case t18_21 = "18-21"
     case t21_24 = "21-24"
     case t00_03 = "00-03"
+    case monsoon = "Monsoon"
     
     var displayName: String {
         switch self {
@@ -29,6 +30,7 @@ enum TimeOfDay: String, Codable, CaseIterable {
         case .t18_21: return "Late Evening"
         case .t21_24: return "Night"
         case .t00_03: return "Midnight"
+        case .monsoon: return "Monsoon"
         }
     }
     
@@ -47,6 +49,8 @@ enum TimeOfDay: String, Codable, CaseIterable {
         }
     }
 }
+
+
 
 enum Thaat: String, Codable, CaseIterable {
     case bilawal = "Bilawal"
@@ -79,7 +83,7 @@ struct Raag: Identifiable, Codable {
     let id: UUID
     var name: String
     var time: TimeOfDay
-    var thaat: Thaat
+    var thaat: Thaat?
     var aroh: String
     var avroh: String
     var pakad: String?
@@ -88,7 +92,7 @@ struct Raag: Identifiable, Codable {
     init(id: UUID = UUID(),
          name: String,
          time: TimeOfDay,
-         thaat: Thaat,
+         thaat: Thaat? = nil,
          aroh: String,
          avroh: String,
          pakad: String? = nil,
@@ -104,81 +108,3 @@ struct Raag: Identifiable, Codable {
     }
 }
 
-// MARK: - Sample Data
-
-class RaagDataStore {
-    static let shared = RaagDataStore()
-    
-    private(set) var raags: [Raag] = []
-    
-    private init() {
-        loadSampleData()
-    }
-    
-    private func loadSampleData() {
-        raags = [
-            // Morning Raags (06-09)
-            Raag(
-                name: "Bhairav",
-                time: .t06_09,
-                thaat: .bhairav,
-                aroh: "सा रे॒ ग म प ध॒ नि सां",
-                avroh: "सां नि ध॒ प म ग रे॒ सा",
-                pakad: "म प ध॒ म, ग रे॒ सा",
-                youtubeLinks: [
-                    "https://www.youtube.com/watch?v=xG7fTvW0YnY",
-                    "https://www.youtube.com/watch?v=Zg6fZ5qYJzE"
-                ]
-            ),
-            Raag(
-                name: "Ahir Bhairav",
-                time: .t06_09,
-                thaat: .bhairav,
-                aroh: "सा रे॒ ग म प ध नि सां",
-                avroh: "सां नि ध प म ग रे॒ सा",
-                pakad: "सा रे॒ ग म, ध नि सां रे॒",
-                youtubeLinks: [
-                    "https://youtu.be/d_F0fShQZa4?si=zRh4IeyPv6Ijtadz",
-                    "https://youtu.be/jBABgCoLt54?si=6K1p-LSBfcIZmO6X"
-                ]
-            ),
-        ]
-    }
-    
-    // MARK: - CRUD Operations
-    
-    func getRaags() -> [Raag] {
-        return raags
-    }
-    
-    func getRaag(by id: UUID) -> Raag? {
-        return raags.first { $0.id == id }
-    }
-    
-    func getRaags(for time: TimeOfDay) -> [Raag] {
-        return raags.filter { $0.time == time }
-    }
-    
-    func getRaags(for thaat: Thaat) -> [Raag] {
-        return raags.filter { $0.thaat == thaat }
-    }
-    
-    func searchRaags(query: String) -> [Raag] {
-        guard !query.isEmpty else { return raags }
-        return raags.filter { $0.name.localizedCaseInsensitiveContains(query) }
-    }
-    
-    func getCurrentTimeRaags() -> [Raag] {
-        let currentTime = TimeOfDay.current()
-        return getRaags(for: currentTime)
-    }
-    
-    func addYoutubeLink(to raagId: UUID, link: String) {
-            if let index = raags.firstIndex(where: { $0.id == raagId }) {
-                if raags[index].youtubeLinks == nil {
-                    raags[index].youtubeLinks = []
-                }
-                raags[index].youtubeLinks?.append(link)
-            }
-        }
-}

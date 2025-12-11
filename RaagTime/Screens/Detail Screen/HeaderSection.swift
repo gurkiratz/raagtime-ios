@@ -40,13 +40,15 @@ struct HeaderSection: View {
                 .foregroundColor(.secondary)
             
             // Thaat
-            HStack {
-                Text("Thaat:")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                Text(raag.thaat.rawValue)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+            if let thaat = raag.thaat {
+                HStack {
+                    Text("Thaat:")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    Text(thaat.rawValue)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                }
             }
         }
     }

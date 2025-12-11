@@ -43,8 +43,10 @@ struct RaagRowView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Label(raag.thaat.rawValue, systemImage: "music.note.list")
-                        .font(.caption)
+                    if let thaat = raag.thaat {
+                        Label(thaat.rawValue, systemImage: "music.note.list")
+                            .font(.caption)
+                    }
                     
                     HStack(spacing: 4) {
                         Label(raag.time.rawValue, systemImage: "clock")
@@ -92,6 +94,7 @@ struct RaagRowView: View {
         case .t18_21: return "LE"
         case .t21_24: return "NGT"
         case .t00_03: return "MID"
+        case .monsoon: return "MON"
         }
     }
 }

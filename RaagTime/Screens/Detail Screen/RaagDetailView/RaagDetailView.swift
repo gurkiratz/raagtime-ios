@@ -267,7 +267,13 @@ struct ShareSheet: View {
         var text = """
         🎵 Raag: \(raag.name)
         ⏰ Time: \(raag.time.rawValue) (\(raag.time.displayName))
-        🎼 Thaat: \(raag.thaat.rawValue)
+        """
+        
+        if let thaat = raag.thaat {
+            text += "\n🎼 Thaat: \(thaat.rawValue)"
+        }
+        
+        text += """
         
         📈 Aroh: \(raag.aroh)
         📉 Avroh: \(raag.avroh)
