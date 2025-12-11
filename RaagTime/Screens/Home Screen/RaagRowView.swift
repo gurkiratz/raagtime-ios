@@ -49,7 +49,7 @@ struct RaagRowView: View {
                     HStack(spacing: 4) {
                         Label(raag.time.rawValue, systemImage: "clock")
                             .font(.caption)
-                        Text(raag.time.timeRange)
+                        Text(raag.time.displayName)
                             .font(.caption)
                     }
                 }
@@ -84,14 +84,14 @@ struct RaagRowView: View {
     
     private var timeAbbreviation: String {
         switch raag.time {
-        case .earlyMorning: return "EM"
-        case .morning: return "MOR"
-        case .lateMorning: return "LM"
-        case .afternoon: return "AFT"
-        case .evening: return "EVE"
-        case .lateEvening: return "LE"
-        case .night: return "NGT"
-        case .midnight: return "MID"
+        case .t03_06: return "EM"
+        case .t06_09: return "MOR"
+        case .t09_12: return "LM"
+        case .t12_15: return "AFT"
+        case .t15_18: return "EVE"
+        case .t18_21: return "LE"
+        case .t21_24: return "NGT"
+        case .t00_03: return "MID"
         }
     }
 }

@@ -266,7 +266,7 @@ struct ShareSheet: View {
     private var shareText: String {
         var text = """
         🎵 Raag: \(raag.name)
-        ⏰ Time: \(raag.time.rawValue) (\(raag.time.timeRange))
+        ⏰ Time: \(raag.time.rawValue) (\(raag.time.displayName))
         🎼 Thaat: \(raag.thaat.rawValue)
         
         📈 Aroh: \(raag.aroh)

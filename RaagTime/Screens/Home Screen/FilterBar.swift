@@ -32,7 +32,7 @@ struct FilterBar: View {
                 // All Time Filters
                 ForEach(TimeOfDay.allCases, id: \.self) { time in
                     FilterChip(
-                        title: time.rawValue,
+                        title: time.displayName,
                         isSelected: selectedTime == time
                     ) {
                         if selectedTime == time {
@@ -91,5 +91,5 @@ struct FilterChip: View {
 }
 
 #Preview {
-    FilterBar(selectedTime: .constant(TimeOfDay.evening), showCurrentTime: .constant(true))
+    FilterBar(selectedTime: .constant(TimeOfDay.t15_18), showCurrentTime: .constant(true))
 }

@@ -15,7 +15,7 @@ struct HeaderSection: View {
         VStack(alignment: .leading, spacing: 12) {
             // Time Badge
             HStack {
-                Label(raag.time.rawValue, systemImage: "clock.fill")
+                Label(raag.time.displayName, systemImage: "clock.fill")
                     .font(.subheadline)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
@@ -35,7 +35,7 @@ struct HeaderSection: View {
             }
             
             // Time Range
-            Text(raag.time.timeRange)
+            Text(raag.time.rawValue)
                 .font(.caption)
                 .foregroundColor(.secondary)
             

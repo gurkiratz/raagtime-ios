@@ -10,40 +10,40 @@ import Foundation
 // MARK: - Enums
 
 enum TimeOfDay: String, Codable, CaseIterable {
-    case earlyMorning = "Early Morning"
-    case morning = "Morning"
-    case lateMorning = "Late Morning"
-    case afternoon = "Afternoon"
-    case evening = "Evening"
-    case lateEvening = "Late Evening"
-    case night = "Night"
-    case midnight = "Midnight"
+    case t03_06 = "03-06"
+    case t06_09 = "06-09"
+    case t09_12 = "09-12"
+    case t12_15 = "12-15"
+    case t15_18 = "15-18"
+    case t18_21 = "18-21"
+    case t21_24 = "21-24"
+    case t00_03 = "00-03"
     
-    var timeRange: String {
+    var displayName: String {
         switch self {
-        case .earlyMorning: return "03-06"
-        case .morning: return "06-09"
-        case .lateMorning: return "09-12"
-        case .afternoon: return "12-15"
-        case .evening: return "15-18"
-        case .lateEvening: return "18-21"
-        case .night: return "21-24"
-        case .midnight: return "00-03"
+        case .t03_06: return "Early Morning"
+        case .t06_09: return "Morning"
+        case .t09_12: return "Late Morning"
+        case .t12_15: return "Afternoon"
+        case .t15_18: return "Evening"
+        case .t18_21: return "Late Evening"
+        case .t21_24: return "Night"
+        case .t00_03: return "Midnight"
         }
     }
     
     static func current() -> TimeOfDay {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 3..<6: return .earlyMorning
-        case 6..<9: return .morning
-        case 9..<12: return .lateMorning
-        case 12..<15: return .afternoon
-        case 15..<18: return .evening
-        case 18..<21: return .lateEvening
-        case 21..<24: return .night
-        case 0..<3: return .midnight
-        default: return .midnight
+        case 3..<6: return .t03_06
+        case 6..<9: return .t06_09
+        case 9..<12: return .t09_12
+        case 12..<15: return .t12_15
+        case 15..<18: return .t15_18
+        case 18..<21: return .t18_21
+        case 21..<24: return .t21_24
+        case 0..<3: return .t00_03
+        default: return .t00_03
         }
     }
 }
@@ -117,10 +117,10 @@ class RaagDataStore {
     
     private func loadSampleData() {
         raags = [
-            // Morning Raags
+            // Morning Raags (06-09)
             Raag(
                 name: "Bhairav",
-                time: .morning,
+                time: .t06_09,
                 thaat: .bhairav,
                 aroh: "सा रे॒ ग म प ध॒ नि सां",
                 avroh: "सां नि ध॒ प म ग रे॒ सा",
@@ -132,7 +132,7 @@ class RaagDataStore {
             ),
             Raag(
                 name: "Ahir Bhairav",
-                time: .morning,
+                time: .t06_09,
                 thaat: .bhairav,
                 aroh: "सा रे॒ ग म प ध नि सां",
                 avroh: "सां नि ध प म ग रे॒ सा",
