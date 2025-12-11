@@ -61,9 +61,10 @@ struct RaagRowView: View {
             // YouTube Indicator
             if let links = raag.youtubeLinks, !links.isEmpty {
                 VStack {
-                    Image(systemName: "play.square")
-                        .font(.title2)
-                        .foregroundColor(.red)
+                    Image("youtube-logo")
+                        .resizable()
+                        .frame(width: 20, height: 15)
+                        .aspectRatio(contentMode: .fit)
                     Text("\(links.count)")
                         .font(.caption2)
                         .foregroundColor(.secondary)

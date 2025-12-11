@@ -65,25 +65,25 @@ struct RaagListView: View {
 }
 
 // MARK: - Placeholder Detail View
-struct RaagDetailView: View {
-    let raag: Raag
-    
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text(raag.name)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Text("Detail view coming soon...")
-                    .foregroundColor(.secondary)
-            }
-            .padding()
-        }
-        .navigationTitle(raag.name)
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
+//struct RaagDetailView: View {
+//    let raag: Raag
+//    
+//    var body: some View {
+//        ScrollView {
+//            VStack(alignment: .leading, spacing: 20) {
+//                Text(raag.name)
+//                    .font(.largeTitle)
+//                    .fontWeight(.bold)
+//                
+//                Text("Detail view coming soon...")
+//                    .foregroundColor(.secondary)
+//            }
+//            .padding()
+//        }
+//        .navigationTitle(raag.name)
+//        .navigationBarTitleDisplayMode(.inline)
+//    }
+//}
 
 #Preview {
     RaagListView()
