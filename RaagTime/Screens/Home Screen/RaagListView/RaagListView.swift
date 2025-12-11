@@ -60,6 +60,14 @@ struct RaagListView: View {
             }
             .navigationTitle("RaagTime")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: AboutView()) {
+                        Image(systemName: "info.circle")
+                    }
+                }
+                .sharedBackgroundVisibility(.hidden)
+            }
         }
     }
 }

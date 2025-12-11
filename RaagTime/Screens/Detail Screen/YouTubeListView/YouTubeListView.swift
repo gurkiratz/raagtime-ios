@@ -15,7 +15,7 @@ struct YouTubeListView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("YouTube Examples")
+            Text("Songs and Performances")
                 .font(.title2)
                 .fontWeight(.bold)
             
@@ -27,6 +27,7 @@ struct YouTubeListView: View {
                     .frame(height: 220)
                     .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
                     .padding()
+                    .id(selectedVideo) // Force view recreation when video changes
             }
             
             // Video List
