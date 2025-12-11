@@ -34,6 +34,11 @@ enum TimeOfDay: String, Codable, CaseIterable {
         }
     }
     
+    /// Sort order based on enum case order (03-06 first, 00-03 after 21-24)
+    var sortOrder: Int {
+        return TimeOfDay.allCases.firstIndex(of: self) ?? 0
+    }
+    
     static func current() -> TimeOfDay {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {

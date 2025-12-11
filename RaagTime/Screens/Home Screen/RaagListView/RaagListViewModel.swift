@@ -36,7 +36,7 @@ import Foundation
         case .alphabetical:
             raags = raags.sorted { $0.name < $1.name }
         case .time:
-            raags = raags.sorted { $0.time.rawValue < $1.time.rawValue }
+            raags = raags.sorted { $0.time.sortOrder < $1.time.sortOrder }
         case .thaat:
             raags = raags.sorted { raag1, raag2 in
                 let thaat1 = raag1.thaat?.rawValue ?? ""
