@@ -93,9 +93,17 @@ struct RaagListView: View {
                             ForEach(viewModel.filteredRaags) { raag in
                                 NavigationLink(destination: RaagDetailView(raag: raag)) {
                                     if viewMode == .compact {
-                                        CompactRaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
+                                        CompactRaagRowView(
+                                            raag: raag,
+                                            isCurrentTime: viewModel.isCurrentTime(raag),
+                                            isMonsoonRaag: viewModel.isMonsoonRaagInSeason(raag)
+                                        )
                                     } else {
-                                        RaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
+                                        RaagRowView(
+                                            raag: raag,
+                                            isCurrentTime: viewModel.isCurrentTime(raag),
+                                            isMonsoonRaag: viewModel.isMonsoonRaagInSeason(raag)
+                                        )
                                     }
                                 }
                                 .buttonStyle(PlainButtonStyle())

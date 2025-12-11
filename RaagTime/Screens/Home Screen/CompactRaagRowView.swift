@@ -10,6 +10,13 @@ import SwiftUI
 struct CompactRaagRowView: View {
     let raag: Raag
     let isCurrentTime: Bool
+    let isMonsoonRaag: Bool
+    
+    init(raag: Raag, isCurrentTime: Bool, isMonsoonRaag: Bool = false) {
+        self.raag = raag
+        self.isCurrentTime = isCurrentTime
+        self.isMonsoonRaag = isMonsoonRaag
+    }
     
     var body: some View {
         HStack {
@@ -32,8 +39,12 @@ struct CompactRaagRowView: View {
                 .foregroundColor(.secondary)
                 .frame(width: 70, alignment: .leading)
             
-            // Current time indicator
-            if isCurrentTime {
+            // Current time indicator or monsoon indicator
+            if isMonsoonRaag {
+                Image(systemName: "cloud.rain.fill")
+                    .font(.caption2)
+                    .foregroundColor(.cyan)
+            } else if isCurrentTime {
                 Circle()
                     .fill(Color.green)
                     .frame(width: 8, height: 8)

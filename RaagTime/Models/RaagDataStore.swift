@@ -4701,7 +4701,18 @@ class RaagDataStore {
     
     func getCurrentTimeRaags() -> [Raag] {
         let currentTime = TimeOfDay.current()
-        return getRaags(for: currentTime)
+        var raags = getRaags(for: currentTime)
+        
+        // During monsoon season (July-September), also include monsoon raags
+        if TimeOfDay.isMonsoonSeason() {
+            let monsoonRaags = getRaags(for: .monsoon)
+            // Avoid duplicates
+            let existingIds = Set(raags.map { $0.id })
+            let newMonsoonRaags = monsoonRaags.filter { !existingIds.contains($0.id) }
+            raags.append(contentsOf: newMonsoonRaags)
+        }
+        
+        return raags
     }
     
     func addYoutubeLink(to raagId: UUID, link: String) {

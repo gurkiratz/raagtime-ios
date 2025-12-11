@@ -52,6 +52,11 @@ import Foundation
         return raag.time == TimeOfDay.current()
     }
     
+    /// Returns true if the raag is a monsoon raag and we're in monsoon season
+    func isMonsoonRaagInSeason(_ raag: Raag) -> Bool {
+        return raag.time == .monsoon && TimeOfDay.isMonsoonSeason()
+    }
+    
     func refresh() {
         // Trigger a refresh (useful if you add remote data fetching later)
         print("Refresh Raag data")

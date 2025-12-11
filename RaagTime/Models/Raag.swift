@@ -53,6 +53,12 @@ enum TimeOfDay: String, Codable, CaseIterable {
         default: return .t00_03
         }
     }
+    
+    /// Returns true if current month is July, August, or September (monsoon season)
+    static func isMonsoonSeason() -> Bool {
+        let month = Calendar.current.component(.month, from: Date())
+        return month >= 7 && month <= 9
+    }
 }
 
 

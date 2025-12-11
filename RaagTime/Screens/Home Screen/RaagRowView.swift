@@ -10,16 +10,23 @@ import SwiftUI
 struct RaagRowView: View {
     let raag: Raag
     let isCurrentTime: Bool
+    let isMonsoonRaag: Bool
+    
+    init(raag: Raag, isCurrentTime: Bool, isMonsoonRaag: Bool = false) {
+        self.raag = raag
+        self.isCurrentTime = isCurrentTime
+        self.isMonsoonRaag = isMonsoonRaag
+    }
     
     var body: some View {
         HStack(spacing: 16) {
             // Time Indicator Circle
             Circle()
-                .fill(isCurrentTime ? Color.green : Color.blue.opacity(0.7))
+                .fill(isCurrentTime || isMonsoonRaag ? Color.green : Color.blue.opacity(0.7))
                 .frame(width: 50, height: 50)
                 .overlay(
                     VStack(spacing: 2) {
-                        Image(systemName: "clock")
+                        Image(systemName: isMonsoonRaag ? "cloud.rain.fill" : "clock")
                             .font(.caption)
                         Text(timeAbbreviation)
                             .font(.caption2)
@@ -35,7 +42,11 @@ struct RaagRowView: View {
                         .font(.headline)
                         .foregroundColor(.primary)
                     
-                    if isCurrentTime {
+                    if isMonsoonRaag {
+                        Image(systemName: "cloud.rain.fill")
+                            .font(.caption)
+                            .foregroundColor(.cyan)
+                    } else if isCurrentTime {
                         Image(systemName: "circle.fill")
                             .font(.caption)
                             .foregroundColor(.yellow)
