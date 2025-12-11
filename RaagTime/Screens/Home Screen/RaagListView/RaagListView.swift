@@ -13,10 +13,16 @@ enum SortOption: String, CaseIterable {
     case thaat = "Thaat"
 }
 
+enum ViewMode: String, CaseIterable {
+    case normal = "Normal"
+    case compact = "Compact"
+}
+
 
 // MARK: - Main Home View
 struct RaagListView: View {
     @State private var viewModel = RaagListViewModel()
+    @State private var viewMode: ViewMode = .normal
     
     var body: some View {
         NavigationStack {
@@ -33,9 +39,21 @@ struct RaagListView: View {
                     showCurrentTime: $viewModel.showCurrentTimeOnly
                 )
                 
-                // Sort Menu
+                // Sort Menu & View Mode Switcher
                 HStack {
+                    // View Mode Switcher
+                    Picker("View", selection: $viewMode) {
+                        Image(systemName: "rectangle.grid.1x2")
+                            .tag(ViewMode.normal)
+                        Image(systemName: "list.bullet")
+                            .tag(ViewMode.compact)
+                    }
+                    .pickerStyle(.segmented)
+                    .frame(width: 100)
+                    .padding(.leading)
+                    
                     Spacer()
+                    
                     SortMenu(selectedSort: $viewModel.sortOption)
                         .padding(.horizontal)
                 }
@@ -46,15 +64,49 @@ struct RaagListView: View {
                     EmptyStateView()
                 } else {
                     ScrollView {
-                        LazyVStack(spacing: 12) {
+                        LazyVStack(spacing: viewMode == .compact ? 0 : 12) {
+                            // Table header for compact view
+                            if viewMode == .compact {
+                                HStack {
+                                    Text("Name")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("Time")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .frame(width: 100, alignment: .leading)
+                                    Text("Thaat")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .frame(width: 70, alignment: .leading)
+                                    Spacer()
+                                        .frame(width: 28) // Space for indicator + chevron
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(Color(.secondarySystemBackground))
+                                
+                                Divider()
+                            }
+                            
                             ForEach(viewModel.filteredRaags) { raag in
                                 NavigationLink(destination: RaagDetailView(raag: raag)) {
-                                    RaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
+                                    if viewMode == .compact {
+                                        CompactRaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
+                                    } else {
+                                        RaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
+                                    }
                                 }
                                 .buttonStyle(PlainButtonStyle())
+                                
+                                if viewMode == .compact {
+                                    Divider()
+                                        .padding(.leading, 12)
+                                }
                             }
                         }
-                        .padding()
+                        .padding(viewMode == .compact ? 0 : 16)
                     }
                 }
             }
