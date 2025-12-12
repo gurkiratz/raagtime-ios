@@ -12,9 +12,11 @@ import Foundation
     var searchText = ""
     var selectedTimeFilter: TimeOfDay?
     var showCurrentTimeOnly = false
+    var showFavoritesOnly = false
     var sortOption: SortOption = .alphabetical
     
     private let dataStore = RaagDataStore.shared
+    private let favoritesService = FavoritesService.shared
     
     var filteredRaags: [Raag] {
         var raags = dataStore.getRaags()
@@ -24,9 +26,15 @@ import Foundation
             raags = dataStore.searchRaags(query: searchText)
         }
         
+        // Apply favorites filter
+        if showFavoritesOnly {
+            raags = raags.filter { favoritesService.isFavorite($0.id) }
+        }
+        
         // Apply time filter
         if showCurrentTimeOnly {
-            raags = dataStore.getCurrentTimeRaags()
+            let currentTimeRaags = dataStore.getCurrentTimeRaags()
+            raags = raags.filter { raag in currentTimeRaags.contains { $0.id == raag.id } }
         } else if let timeFilter = selectedTimeFilter {
             raags = raags.filter { $0.time == timeFilter }
         }
@@ -50,6 +58,18 @@ import Foundation
     
     func isCurrentTime(_ raag: Raag) -> Bool {
         return raag.time == TimeOfDay.current()
+    }
+    
+    func isFavorite(_ raag: Raag) -> Bool {
+        return favoritesService.isFavorite(raag.id)
+    }
+    
+    func toggleFavorite(_ raag: Raag) {
+        favoritesService.toggleFavorite(raag.id)
+    }
+    
+    func markAsFavorite(_ raag: Raag) {
+        favoritesService.toggleFavorite(raag.id)
     }
     
     func refresh() {

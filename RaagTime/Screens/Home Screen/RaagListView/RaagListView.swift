@@ -36,7 +36,8 @@ struct RaagListView: View {
                 // Filter Bar
                 FilterBar(
                     selectedTime: $viewModel.selectedTimeFilter,
-                    showCurrentTime: $viewModel.showCurrentTimeOnly
+                    showCurrentTime: $viewModel.showCurrentTimeOnly,
+                    showFavoritesOnly: $viewModel.showFavoritesOnly
                 )
                 
                 // Sort Menu & View Mode Switcher
@@ -63,51 +64,64 @@ struct RaagListView: View {
                 if viewModel.filteredRaags.isEmpty {
                     EmptyStateView()
                 } else {
-                    ScrollView {
-                        LazyVStack(spacing: viewMode == .compact ? 0 : 12) {
-                            // Table header for compact view
-                            if viewMode == .compact {
-                                HStack {
-                                    Text("Name")
-                                        .font(.caption)
-                                        .fontWeight(.semibold)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    Text("Time")
-                                        .font(.caption)
-                                        .fontWeight(.semibold)
-                                        .frame(width: 100, alignment: .leading)
-                                    Text("Thaat")
-                                        .font(.caption)
-                                        .fontWeight(.semibold)
-                                        .frame(width: 70, alignment: .leading)
-                                    Spacer()
-                                        .frame(width: 28) // Space for indicator + chevron
-                                }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(Color(.secondarySystemBackground))
-                                
-                                Divider()
+                    List {
+                        // Table header for compact view
+                        if viewMode == .compact {
+                            HStack {
+                                Text("Name")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Text("Time")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .frame(width: 100, alignment: .leading)
+                                Text("Thaat")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .frame(width: 70, alignment: .leading)
+                                Spacer()
+                                    .frame(width: 28) // Space for indicator + chevron
                             }
-                            
-                            ForEach(viewModel.filteredRaags) { raag in
-                                NavigationLink(destination: RaagDetailView(raag: raag)) {
-                                    if viewMode == .compact {
-                                        CompactRaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
-                                    } else {
-                                        RaagRowView(raag: raag, isCurrentTime: viewModel.isCurrentTime(raag))
-                                    }
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                
-                                if viewMode == .compact {
-                                    Divider()
-                                        .padding(.leading, 12)
-                                }
-                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .listRowInsets(EdgeInsets())
+                            .listRowSeparator(.visible)
+                            .background(Color(.secondarySystemBackground))
                         }
-                        .padding(viewMode == .compact ? 0 : 16)
+                        
+                        ForEach(viewModel.filteredRaags) { raag in
+                            NavigationLink(destination: RaagDetailView(raag: raag)) {
+                                if viewMode == .compact {
+                                    CompactRaagRowView(
+                                        raag: raag,
+                                        isCurrentTime: viewModel.isCurrentTime(raag),
+                                        isFavorite: viewModel.isFavorite(raag)
+                                    )
+                                } else {
+                                    RaagRowView(
+                                        raag: raag,
+                                        isCurrentTime: viewModel.isCurrentTime(raag),
+                                        isFavorite: viewModel.isFavorite(raag)
+                                    )
+                                }
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button {
+                                    viewModel.markAsFavorite(raag)
+                                } label: {
+                                    Image(systemName: viewModel.isFavorite(raag) ? "heart.slash.fill" : "heart.fill")
+                                }
+                                .tint(viewModel.isFavorite(raag) ? .gray : .red)
+                            }
+                            .listRowInsets(viewMode == .compact ? EdgeInsets() : EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                            .listRowSeparator(viewMode == .compact ? .visible : .hidden)
+                            .listRowBackground(Color.clear)
+                        }
+                        .padding(.trailing, viewMode == .compact ? 16 : 0)
+                        
                     }
+                    .listStyle(.plain)
                 }
             }
             .navigationTitle("RaagTime")

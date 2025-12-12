@@ -10,15 +10,23 @@ import SwiftUI
 struct CompactRaagRowView: View {
     let raag: Raag
     let isCurrentTime: Bool
+    let isFavorite: Bool
     
     var body: some View {
         HStack {
-            // Title
-            Text(raag.name)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            // Title with favorite indicator
+            HStack(spacing: 4) {
+                if isFavorite {
+                    Image(systemName: "heart.fill")
+                        .font(.caption2)
+                        .foregroundColor(.red)
+                }
+                Text(raag.name)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.primary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             // Time
             Text(raag.time.rawValue)
@@ -39,9 +47,9 @@ struct CompactRaagRowView: View {
                     .frame(width: 8, height: 8)
             }
             
-            Image(systemName: "chevron.right")
-                .font(.caption2)
-                .foregroundColor(.gray)
+            // Image(systemName: "chevron.right")
+            //     .font(.caption2)
+            //     .foregroundColor(.gray)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
@@ -50,5 +58,5 @@ struct CompactRaagRowView: View {
 }
 
 #Preview {
-    CompactRaagRowView(raag: RaagDataStore.shared.raags.first!, isCurrentTime: true)
+    CompactRaagRowView(raag: RaagDataStore.shared.raags.first!, isCurrentTime: true, isFavorite: true)
 }

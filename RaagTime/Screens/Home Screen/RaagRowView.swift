@@ -10,6 +10,7 @@ import SwiftUI
 struct RaagRowView: View {
     let raag: Raag
     let isCurrentTime: Bool
+    let isFavorite: Bool
     
     var body: some View {
         HStack(spacing: 16) {
@@ -30,10 +31,16 @@ struct RaagRowView: View {
             
             // Raag Info
             VStack(alignment: .leading, spacing: 4) {
-                HStack {
+                HStack(spacing: 6) {
                     Text(raag.name)
                         .font(.headline)
                         .foregroundColor(.primary)
+                    
+                    if isFavorite {
+                        Image(systemName: "heart.fill")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    }
                     
                     if isCurrentTime {
                         Image(systemName: "circle.fill")
@@ -63,9 +70,10 @@ struct RaagRowView: View {
             // YouTube Indicator
             if let links = raag.youtubeLinks, !links.isEmpty {
                 VStack {
-                    Image("youtube-logo")
+                    Image(systemName: "play")
                         .resizable()
-                        .frame(width: 20, height: 15)
+                        .frame(width: 15, height: 15)
+//                        .foregroundStyle(Color.red.exposureAdjust(0.4))
                         .aspectRatio(contentMode: .fit)
                     Text("\(links.count)")
                         .font(.caption2)
@@ -74,14 +82,14 @@ struct RaagRowView: View {
                 }
             }
             
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(.gray)
+            // Image(systemName: "chevron.right")
+            //     .font(.caption)
+            //     .foregroundColor(.gray)
         }
         .padding()
         .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 2)
+        // .cornerRadius(12)
+        // .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 2)
     }
     
     private var timeAbbreviation: String {
@@ -100,5 +108,5 @@ struct RaagRowView: View {
 }
 
 #Preview {
-    RaagRowView(raag: RaagDataStore.shared.raags.first!, isCurrentTime: false)
+    RaagRowView(raag: RaagDataStore.shared.raags.first!, isCurrentTime: false, isFavorite: true)
 }

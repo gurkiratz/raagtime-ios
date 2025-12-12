@@ -10,10 +10,23 @@ import SwiftUI
 struct FilterBar: View {
     @Binding var selectedTime: TimeOfDay?
     @Binding var showCurrentTime: Bool
+    @Binding var showFavoritesOnly: Bool
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
+                // Favorites Filter
+                FilterChip(
+                    title: "",
+                    isSelected: showFavoritesOnly,
+                    icon: "heart.fill"
+                ) {
+                    showFavoritesOnly.toggle()
+                }
+                
+                Divider()
+                    .frame(height: 30)
+                
                 // Current Time Filter
                 FilterChip(
                     title: "Now",
@@ -91,5 +104,5 @@ struct FilterChip: View {
 }
 
 #Preview {
-    FilterBar(selectedTime: .constant(TimeOfDay.t15_18), showCurrentTime: .constant(true))
+    FilterBar(selectedTime: .constant(TimeOfDay.t15_18), showCurrentTime: .constant(true), showFavoritesOnly: .constant(false))
 }

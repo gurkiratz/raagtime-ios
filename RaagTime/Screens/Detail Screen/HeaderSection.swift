@@ -35,9 +35,17 @@ struct HeaderSection: View {
             }
             
             // Time Range
-            Text(raag.time.rawValue)
-                .font(.caption)
-                .foregroundColor(.secondary)
+            HStack {
+                    Text("Time:")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    Text(raag.time.rawValue)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                }
+            // Text(raag.time.rawValue)
+            //     .font(.caption)
+            //     .foregroundColor(.secondary)
             
             // Thaat
             if let thaat = raag.thaat {
